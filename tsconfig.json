@@ -1,0 +1,62 @@
+{
+    // Visit https://aka.ms/tsconfig to read more about this file
+    "$schema": "https://json.schemastore.org/tsconfig.json",
+    "compilerOptions": {
+        // File Layout
+        "rootDir": "./src",
+        "outDir": "./dist",
+
+        // Environment Settings
+        // See also https://aka.ms/tsconfig/module
+        "module": "nodenext",
+        "moduleResolution": "nodenext",
+        "target": "es2022",
+        // For nodejs:
+        "lib": ["esnext"],
+        "types": ["node"],
+
+        // Other Outputs
+        "sourceMap": true,
+        "declaration": true,
+        "declarationMap": true,
+
+        // Stricter Typechecking Options
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true,
+
+        // Style Options
+        "noImplicitReturns": true,
+        "noImplicitOverride": true,
+        // "noUnusedLocals": true,
+        // "noUnusedParameters": true,
+        // "noFallthroughCasesInSwitch": true,
+        // "noPropertyAccessFromIndexSignature": true,
+
+        // Recommended Options
+        "strict": true,
+        "jsx": "react-jsx",
+        "verbatimModuleSyntax": true,
+        "isolatedModules": true,
+        "noUncheckedSideEffectImports": true,
+        "moduleDetection": "force",
+
+        // Skip type-checking for .d.ts files in node_modules.
+        // Without this, some packages cause spurious errors.
+        "skipLibCheck": true,
+
+        // Prevents bugs caused by case-insensitive file systems (macOS/Windows)
+        "forceConsistentCasingInFileNames": true,
+
+        // Lets you import .json files directly: import config from './config.json'
+        "resolveJsonModule": true,
+
+        // Prevents bugs caused by a mix of commonjs and es modules
+        "esModuleInterop": true,
+
+        "paths": {
+            "@/*": ["./src/*"]
+        }
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules", "dist", "**/*.test.ts"]
+}

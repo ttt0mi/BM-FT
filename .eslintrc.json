@@ -1,0 +1,34 @@
+{
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint", "prettier"],
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "prettier"
+    ],
+    "parserOptions": {
+        "project": "./tsconfig.json",
+        "tsconfigRootDir": "."
+    },
+    "rules": {
+        "prettier/prettier": "error",
+        "no-console": ["warn", { "allow": ["warn", "error", "info"] }],
+
+        // Bans `any` — the escape hatch that defeats the purpose of TypeScript
+        "@typescript-eslint/no-explicit-any": "error",
+
+        // Warns when you forget to annotate what a function returns.
+        "@typescript-eslint/explicit-function-return-type": "warn",
+
+        // Errors on unused variables, but ignores params prefixed with _ like '_req'
+        "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+
+        // Forces consistent use of `import type` for type-only imports.
+        // Keeps runtime and type imports visually distinct.
+        "@typescript-eslint/consistent-type-imports": "warn",
+
+        // No floating promises — every async call must be awaited or .catch'd.
+        "@typescript-eslint/no-floating-promises": "error"
+    }
+}
