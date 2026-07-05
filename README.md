@@ -8,7 +8,7 @@ A backend budgeting system built with Node.js, TypeScript, Fastify, Prisma, and 
 |------|---------|
 | Fastify | HTTP framework |
 | Prisma | ORM + migrations |
-| PostgreSQL | Database |
+| Supabase | Database |
 | Zod | Runtime validation |
 | JWT | Authentication |
 | decimal.js | Safe money arithmetic |
