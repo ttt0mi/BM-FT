@@ -1,6 +1,7 @@
 import { type FastifyInstance, type FastifyRequest, type FastifyReply } from "fastify";
 import fp from "fastify-plugin";
 import fastifyJwt from "@fastify/jwt";
+import { config } from '@/config/env.js';
 
 /**
 * This plugin registers @fastify/jwt so that all other plugins/routes
@@ -8,9 +9,9 @@ import fastifyJwt from "@fastify/jwt";
 */
 export default fp(async (fastify: FastifyInstance) => {
     await fastify.register(fastifyJwt, {
-        secret: fastify.config.ACCESS_JWT_SECRET,
+        secret: config.ACCESS_JWT_SECRET,
         sign: {
-            expiresIn: fastify.config.ACCESS_JWT_EXPIRES_IN,
+            expiresIn: config.ACCESS_JWT_EXPIRES_IN,
         },
     });
 

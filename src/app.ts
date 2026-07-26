@@ -4,11 +4,11 @@ import corsPlugin from "@/plugins/cors.js"
 import authPlugin from '@/plugins/auth.js';
 import databasePlugin from '@/plugins/database.js';
 import errorHandlerPlugin from '@/plugins/error-handler.js';
-import configPlugin from '@/plugins/env-config.js';
 import { envToLogger } from "@/plugins/logger.js";
+import { config } from "@/config/env.js";
 
 
-const currentEnv = process.env.NODE_ENV as keyof typeof envToLogger
+const currentEnv = config.NODE_ENV as keyof typeof envToLogger
 
 /** 
 * The app factory. a function that builds and returns a configured Fastify instance.
@@ -19,7 +19,7 @@ export async function buildApp(): Promise<FastifyInstance> {
     const app = Fastify({
         logger: envToLogger[currentEnv] ?? envToLogger.production,
     });
-    
+
     await app.register(helmetPlugin);
 
     await app.register(corsPlugin);
@@ -30,15 +30,13 @@ export async function buildApp(): Promise<FastifyInstance> {
 
     await app.register(errorHandlerPlugin);
 
-    await app.register(configPlugin);
-
     app.get("/health", async (_request, reply) => {
         return reply.send({
             status: "ok",
             uptime: process.uptime(),
             version: "1.0.0",
             timestamp: new Date().toISOString(),
-            environment: app.config.NODE_ENV,
+            environment: config.NODE_ENV,
         });
     });
 

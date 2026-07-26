@@ -1,3 +1,5 @@
+import { config } from '@/config/env.js';
+
 export const envToLogger = {
     development: {
         transport: {
@@ -7,10 +9,10 @@ export const envToLogger = {
                 ignore: 'pid,hostname',
             },
         },
-        level: process.env.LOG_LEVEL ?? 'debug',
+        level: config.LOG_LEVEL ?? 'debug',
     },
     production: {
-        level: process.env.LOG_LEVEL ?? 'info',
+        level: config.LOG_LEVEL ?? 'info',
     },
     test: false,
 };
