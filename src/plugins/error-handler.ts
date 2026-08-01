@@ -15,10 +15,11 @@ export default fp(async (fastify: FastifyInstance) => {
     fastify.setErrorHandler((error: AppError | FastifyError, request, reply) => {
         // AppError subclasses. use their status code and code
         if (error instanceof AppError) {
-            return reply.status(error.statusCode).send({
+            return reply.status(error.status).send({
                 error: {
-                    errorType: error.errorType,
+                    code: error.code,
                     message: error.message,
+                    details: error?.details,
                 },
             });
         }

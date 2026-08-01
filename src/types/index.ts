@@ -1,4 +1,4 @@
-import "@fastify/jwt";
+import '@fastify/jwt';
 
 /**
  * Augment Fastify's JWT module so that TypeScript knows the exact
@@ -6,7 +6,7 @@ import "@fastify/jwt";
  *
  * After this, `request.user` anywhere in the app is typed as JwtPayload.
  */
-declare module "@fastify/jwt" {
+declare module '@fastify/jwt' {
     interface FastifyJWT {
         payload: JwtPayload; // what we encode when we sign the token
         user: JwtPayload; // what request.user contains after verification
@@ -44,4 +44,8 @@ export interface PaginatedResponse<T> {
     items: T[];
     nextCursor: string | null; // null means "no more pages"
     hasMore: boolean;
+}
+
+export interface ErrorOptions {
+    details?: unknown;
 }
