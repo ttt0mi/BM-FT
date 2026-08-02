@@ -9,7 +9,6 @@ const ErrorCode = {
     VALIDATION_ERROR: 'VALIDATION_ERROR',
 } as const;
 
-
 /**
  * Base application error. All other errors extend this.
  */
@@ -41,7 +40,7 @@ export class NotFoundError extends AppError {
 
 /**
  * 401 -> Not authenticated (no valid token).
- * @example throw new UnauthorizedError('Account not authorised', 
+ * @example throw new UnauthorizedError('Account not authorised',
  *               details: {userId: 456, platform: "web"}
  *         )
  */

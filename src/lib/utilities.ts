@@ -1,4 +1,4 @@
-import { Decimal } from "decimal.js";
+import { Decimal } from 'decimal.js';
 
 Decimal.set({
     precision: 20,
@@ -15,10 +15,7 @@ Decimal.set({
  */
 export function toMinorUnit(amount: Decimal.Value, currency: string): bigint {
     return BigInt(
-        new Decimal(amount)
-        .mul(getCurrencyScale(currency))
-        .toDecimalPlaces(0)
-        .toNumber()
+        new Decimal(amount).mul(getCurrencyScale(currency)).toDecimalPlaces(0).toNumber(),
     );
 }
 
@@ -30,39 +27,34 @@ export function toMinorUnit(amount: Decimal.Value, currency: string): bigint {
  *   fromMinorUnit(100n)    // '1.00'
  */
 export function fromMinorUnit(minorUnits: bigint, currency: string): string {
-    return new Decimal(minorUnits)
-        .dividedBy(getCurrencyScale(currency))
-        .toFixed(
-            new Intl.NumberFormat('en', {
-                style: 'currency',
-                currency,
-            }).resolvedOptions().maximumFractionDigits
-        );
+    return new Decimal(minorUnits).dividedBy(getCurrencyScale(currency)).toFixed(
+        new Intl.NumberFormat('en', {
+            style: 'currency',
+            currency,
+        }).resolvedOptions().maximumFractionDigits,
+    );
 }
 
 /**
  * Safely add two minor unit amounts.
  */
 export function addMinorUnits(number1: bigint, number2: bigint): bigint {
-    return BigInt(
-        new Decimal(number1).plus(number2).toNumber()
-    );
+    return BigInt(new Decimal(number1).plus(number2).toNumber());
 }
 
 /**
  * Safely subtract two minor unit amounts.
  */
 export function subtractMinorUnits(number1: bigint, number2: bigint): bigint {
-    return BigInt(
-        new Decimal(number1).minus(number2).toNumber()
-    );
+    return BigInt(new Decimal(number1).minus(number2).toNumber());
 }
 
 /**
  * Validate that an amount string/number is a valid positive money value.
  */
 export function isValidAmount(amount: unknown): boolean {
-    if (typeof amount !== "string" && typeof amount !== "number" && typeof amount !== "bigint") return false;
+    if (typeof amount !== 'string' && typeof amount !== 'number' && typeof amount !== 'bigint')
+        return false;
     try {
         const d = new Decimal(amount);
         return d.isFinite() && d.isPositive() && !d.isZero();
@@ -80,7 +72,7 @@ export function formatMoney(minorUnits: bigint, currency: string, locale: string
     const formatter = new Intl.NumberFormat(locale, {
         style: 'currency',
         currency,
-    })
+    });
 
     const amount: number = new Decimal(minorUnits.toString())
         .div(getCurrencyScale(currency))

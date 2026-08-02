@@ -34,10 +34,12 @@ export default defineConfig([
                 'error',
                 {
                     argsIgnorePattern: '^_',
+                    caughtErrorsIgnorePattern: '^_',
                 },
             ],
             '@typescript-eslint/consistent-type-imports': 'warn',
             '@typescript-eslint/no-floating-promises': 'error',
+            '@typescript-eslint/require-await': 'off',
         },
     },
 

@@ -1,8 +1,7 @@
-import "dotenv/config";
-import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "../generated/prisma/client.js";
+import 'dotenv/config';
+import { PrismaPg } from '@prisma/adapter-pg';
+import { PrismaClient } from '../generated/prisma/client.js';
 import { config } from '@/config/env.js';
-
 
 const connectionString = `${config.DATABASE_URL}`;
 const adapter = new PrismaPg({ connectionString });
@@ -10,22 +9,19 @@ const adapter = new PrismaPg({ connectionString });
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
 
 /**
-* A singleton PrismaClient instance.
-* Why a singleton? PrismaClient maintains a connection pool to your database.
-* If you create a new PrismaClient on every request, you'll exhaust your
-* database connections. This is one instance shared across the entire app.
-* The `global` trick prevents the singleton from being lost during hot-reloads in development.
-*/
+ * A singleton PrismaClient instance.
+ * Why a singleton? PrismaClient maintains a connection pool to your database.
+ * If you create a new PrismaClient on every request, you'll exhaust your
+ * database connections. This is one instance shared across the entire app.
+ * The `global` trick prevents the singleton from being lost during hot-reloads in development.
+ */
 export const prisma =
     globalForPrisma.prisma ??
     new PrismaClient({
         adapter,
-        log:
-            config.NODE_ENV === "development"
-                ? ["query", "warn", "error"]
-                : ["error"],
+        log: config.NODE_ENV === 'development' ? ['query', 'warn', 'error'] : ['error'],
     });
 
-if (config.NODE_ENV !== "production") {
+if (config.NODE_ENV !== 'production') {
     globalForPrisma.prisma = prisma;
 }
