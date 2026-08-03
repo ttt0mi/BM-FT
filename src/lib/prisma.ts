@@ -1,10 +1,15 @@
-import 'dotenv/config';
+import { Pool } from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '../generated/prisma/client.js';
 import { config } from '@/config/env.js';
 
-const connectionString = `${config.DATABASE_URL}`;
-const adapter = new PrismaPg({ connectionString });
+const pool = new Pool({
+    connectionString: config.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false,
+    },
+});
+const adapter = new PrismaPg(pool);
 
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
 
