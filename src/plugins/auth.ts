@@ -24,8 +24,15 @@ export default fp(async (fastify: FastifyInstance) => {
     fastify.decorate('authenticate', async function (request: FastifyRequest, reply: FastifyReply) {
         try {
             await request.jwtVerify();
-        } catch (_err) {
-            void reply.status(401).send({ success: false, error: 'Unauthorized Access' });
+        } catch (err) {
+            void reply.status(401).send({
+                success: false,
+                error: {
+                    code: 'UNAUTHORIZED_ACCESS',
+                    message: 'Unauthorized Access',
+                    details: err,
+                },
+            });
         }
     });
 });

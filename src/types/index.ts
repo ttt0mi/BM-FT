@@ -20,15 +20,22 @@ export interface JwtPayload {
     exp?: number; // expiry (added automatically by the JWT library)
 }
 
+export type SuccessResponse<T> = {
+    success: true;
+    data: T;
+};
+
+export type ErrorResponse<T> = {
+    success: false;
+    error: T;
+};
+
 /**
- * A generic API response wrapper.
  * Every endpoint in this app returns a consistent shape:
  *   { success: true, data: {...} }   on success
- *   { success: false, error: '...' }  on failure
+ *   { success: false, error: {...} }  on failure
  */
-export type ApiResponse<T> =
-    | { success: true; data: T }
-    | { success: false; error: string; details?: unknown };
+export type ApiResponse<T> = SuccessResponse<T> | ErrorResponse<T>;
 
 /**
  * Cursor-based pagination params.

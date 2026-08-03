@@ -16,6 +16,7 @@ export default fp(async (fastify: FastifyInstance) => {
         // AppError subclasses. use their status code and code
         if (error instanceof AppError) {
             return reply.status(error.status).send({
+                success: false,
                 error: {
                     code: error.code,
                     message: error.message,
@@ -27,17 +28,27 @@ export default fp(async (fastify: FastifyInstance) => {
         // Fastify's built-in validation errors (from JSON schema or Zod)
         if (error.validation) {
             return reply.status(422).send({
+                success: false,
                 error: {
                     code: 'VALIDATION_ERROR',
                     message: `Could not process request ${request.id}. Validation failed`,
-                    details: error.validation,
+                    details: error.validation.map((err) => ({
+                        field:
+                            err.instancePath.split('/').filter(Boolean).join('.') ||
+                            err.params.missingProperty ||
+                            'root',
+                        rule: err.keyword,
+                        message: err.message,
+                    })),
                 },
             });
         }
 
         // Unknown errors. log them and return a generic 500
         request.log.error(error);
+        console.error(error);
         return reply.status(500).send({
+            success: false,
             error: {
                 code: 'INTERNAL_SERVER_ERROR',
                 message: 'An unexpected error occurred',
