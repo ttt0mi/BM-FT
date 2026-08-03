@@ -5,7 +5,7 @@ import prettierRecommended from 'eslint-plugin-prettier/recommended';
 
 export default defineConfig([
     {
-        ignores: ['node_modules/', 'dist/', 'build/'],
+        ignores: ['node_modules/', 'dist/', 'build/', 'prisma.config.ts'],
     },
 
     js.configs.recommended,
