@@ -2,6 +2,7 @@ import { type FastifyInstance, type FastifyRequest, type FastifyReply } from 'fa
 import fp from 'fastify-plugin';
 import fastifyJwt from '@fastify/jwt';
 import { config } from '@/config/env.js';
+import { ErrorCodes } from '@/shared/errors/AppError.js';
 
 /**
  * This plugin registers @fastify/jwt so that all other plugins/routes
@@ -24,13 +25,12 @@ export default fp(async (fastify: FastifyInstance) => {
     fastify.decorate('authenticate', async function (request: FastifyRequest, reply: FastifyReply) {
         try {
             await request.jwtVerify();
-        } catch (err) {
+        } catch (_err) {
             void reply.status(401).send({
                 success: false,
                 error: {
-                    code: 'UNAUTHORIZED_ACCESS',
+                    code: ErrorCodes.UNAUTHORIZED,
                     message: 'Unauthorized Access',
-                    details: err,
                 },
             });
         }
