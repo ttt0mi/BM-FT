@@ -6,7 +6,7 @@ import {
     errorResponseSchemaFactory,
     AppErrorObjectSchema,
     ValidationErrorObjectSchema,
-} from '@/shared/schemas/response.schema.js';
+} from '@/shared/schemas/response.js';
 import { AuthResponseSchema } from './auth.schema.js';
 
 const authRoutes: FastifyPluginAsyncZod = async (fastify) => {
