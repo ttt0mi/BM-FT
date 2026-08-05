@@ -1,19 +1,23 @@
 import { type FastifyInstance, type FastifyError } from 'fastify';
 import fp from 'fastify-plugin';
-import { AppError } from '@/shared/errors/AppError.js';
+import { AppError, ErrorCodes } from '@/shared/errors/AppError.js';
 
 export default fp(async (fastify: FastifyInstance) => {
     fastify.setNotFoundHandler((request, reply) => {
         reply.status(404).send({
+            success: false,
             error: {
-                code: 'NOT_FOUND',
-                message: `Route ${request.method} ${request.url} not found`,
+                code: ErrorCodes.NOT_FOUND,
+                message: `Resource not found`,
+                details: {
+                    method: request.method,
+                    url: request.url,
+                },
             },
         });
     });
 
     fastify.setErrorHandler((error: AppError | FastifyError, request, reply) => {
-        // AppError subclasses. use their status code and code
         if (error instanceof AppError) {
             return reply.status(error.status).send({
                 success: false,
@@ -30,8 +34,8 @@ export default fp(async (fastify: FastifyInstance) => {
             return reply.status(422).send({
                 success: false,
                 error: {
-                    code: 'VALIDATION_ERROR',
-                    message: `Could not process request ${request.id}. Validation failed`,
+                    code: ErrorCodes.VALIDATION_ERROR,
+                    message: `Could not process request. Validation failed`,
                     details: error.validation.map((err) => ({
                         field:
                             err.instancePath.split('/').filter(Boolean).join('.') ||
@@ -44,14 +48,18 @@ export default fp(async (fastify: FastifyInstance) => {
             });
         }
 
-        // Unknown errors. log them and return a generic 500
         request.log.error(error);
-        console.error(error);
         return reply.status(500).send({
             success: false,
             error: {
-                code: 'INTERNAL_SERVER_ERROR',
-                message: 'An unexpected error occurred',
+                code: ErrorCodes.INTERNAL_SERVER_ERROR,
+                message: error.message,
+                details: {
+                    method: request.method,
+                    url: request.url,
+                    cause: error.cause,
+                    stack: error.stack,
+                },
             },
         });
     });
