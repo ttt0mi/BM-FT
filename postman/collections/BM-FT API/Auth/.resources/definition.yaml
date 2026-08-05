@@ -1,0 +1,7 @@
+$kind: collection
+name: Auth
+auth:
+  - id: 98ef4b1f-3fbb-4fb6-9f51-4b60ae135fa0
+    type: bearer
+    name: Bearer Token
+order: 1723485627875327
