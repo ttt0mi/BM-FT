@@ -14,9 +14,7 @@ Decimal.set({
  *   toMinorUnit('100')   // 10000n
  */
 export function toMinorUnit(amount: Decimal.Value, currency: string): bigint {
-    return BigInt(
-        new Decimal(amount).mul(getCurrencyScale(currency)).toDecimalPlaces(0).toNumber(),
-    );
+    return BigInt(new Decimal(amount).mul(getCurrencyScale(currency)).toFixed(0));
 }
 
 /**
@@ -38,15 +36,15 @@ export function fromMinorUnit(minorUnits: bigint, currency: string): string {
 /**
  * Safely add two minor unit amounts.
  */
-export function addMinorUnits(number1: bigint, number2: bigint): bigint {
-    return BigInt(new Decimal(number1).plus(number2).toNumber());
+export function addMinorUnits(firstValue: bigint, secondValue: bigint): bigint {
+    return firstValue + secondValue;
 }
 
 /**
  * Safely subtract two minor unit amounts.
  */
-export function subtractMinorUnits(number1: bigint, number2: bigint): bigint {
-    return BigInt(new Decimal(number1).minus(number2).toNumber());
+export function subtractMinorUnits(firstValue: bigint, secondValue: bigint): bigint {
+    return firstValue - secondValue;
 }
 
 /**
