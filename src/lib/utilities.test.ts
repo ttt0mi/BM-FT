@@ -60,6 +60,10 @@ describe('money utilities', () => {
             expect(addMinorUnits(1000n, 250n)).toBe(1250n);
         });
 
+        it('adds two large minor unit values correctly', () => {
+            expect(addMinorUnits(9000000000000000n, 1000000000000000n)).toBe(10000000000000000n);
+        });
+
         it('subtracts two minor unit values correctly', () => {
             expect(subtractMinorUnits(1250n, 250n)).toBe(1000n);
         });
