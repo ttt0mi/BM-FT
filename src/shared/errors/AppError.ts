@@ -1,8 +1,8 @@
 import { type ErrorOptions } from '@/types/index.js';
 
-const ErrorCode = {
+export const ErrorCodes = {
     NOT_FOUND: 'NOT_FOUND',
-    SERVER_ERROR: 'SERVER_ERROR',
+    INTERNAL_SERVER_ERROR: 'INTERNAL_SERVER_ERROR',
     UNAUTHORIZED: 'UNAUTHORIZED',
     FORBIDDEN: 'FORBIDDEN',
     CONFLICT: 'CONFLICT',
@@ -18,7 +18,7 @@ export class AppError extends Error {
     constructor(
         message: string,
         public readonly status: number = 500,
-        public readonly code: string = ErrorCode.SERVER_ERROR,
+        public readonly code: string = ErrorCodes.INTERNAL_SERVER_ERROR,
         options?: ErrorOptions,
     ) {
         super(message);
@@ -33,7 +33,7 @@ export class AppError extends Error {
  */
 export class NotFoundError extends AppError {
     constructor(message: string = 'Resource not found', options?: ErrorOptions) {
-        super(message, 404, ErrorCode.NOT_FOUND, options);
+        super(message, 404, ErrorCodes.NOT_FOUND, options);
         this.name = 'NotFoundError';
     }
 }
@@ -46,7 +46,7 @@ export class NotFoundError extends AppError {
  */
 export class UnauthorizedError extends AppError {
     constructor(message: string = 'Authentication required', options?: ErrorOptions) {
-        super(message, 401, ErrorCode.UNAUTHORIZED, options);
+        super(message, 401, ErrorCodes.UNAUTHORIZED, options);
         this.name = 'UnauthorizedError';
     }
 }
@@ -60,7 +60,7 @@ export class ForbiddenError extends AppError {
         message: string = 'You do not have permission to perform this action',
         options?: ErrorOptions,
     ) {
-        super(message, 403, ErrorCode.FORBIDDEN, options);
+        super(message, 403, ErrorCodes.FORBIDDEN, options);
         this.name = 'ForbiddenError';
     }
 }
@@ -71,7 +71,7 @@ export class ForbiddenError extends AppError {
  */
 export class ConflictError extends AppError {
     constructor(message: string = 'Conflict', options?: ErrorOptions) {
-        super(message, 409, ErrorCode.CONFLICT, options);
+        super(message, 409, ErrorCodes.CONFLICT, options);
         this.name = 'ConflictError';
     }
 }
@@ -82,7 +82,7 @@ export class ConflictError extends AppError {
  */
 export class ValidationError extends AppError {
     constructor(message: string, options?: ErrorOptions) {
-        super(message, 422, ErrorCode.VALIDATION_ERROR, options);
+        super(message, 422, ErrorCodes.VALIDATION_ERROR, options);
         this.name = 'ValidationError';
     }
 }
