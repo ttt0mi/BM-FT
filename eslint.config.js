@@ -5,7 +5,7 @@ import prettierRecommended from 'eslint-plugin-prettier/recommended';
 
 export default defineConfig([
     {
-        ignores: ['node_modules/', 'dist/', 'build/', 'prisma.config.ts'],
+        ignores: ['node_modules/', 'dist/', 'build/', 'prisma.config.ts', 'src/generated/prisma/'],
     },
 
     js.configs.recommended,
@@ -17,7 +17,8 @@ export default defineConfig([
 
         languageOptions: {
             parserOptions: {
-                project: './tsconfig.json',
+                projectService: true,
+                tsconfigRootDir: import.meta.dirname,
             },
         },
 
