@@ -26,6 +26,7 @@ const accountsRoutes: FastifyPluginAsyncZod = async (fastify) => {
                 body: CreateAccountSchema,
                 response: {
                     201: successResponseSchemaFactory(AccountResponseSchema),
+                    401: errorResponseSchemaFactory(AppErrorObjectSchema),
                     422: errorResponseSchemaFactory(ValidationErrorObjectSchema),
                 },
             },
@@ -48,6 +49,7 @@ const accountsRoutes: FastifyPluginAsyncZod = async (fastify) => {
                 querystring: ListAccountsQuerySchema,
                 response: {
                     200: successResponseSchemaFactory(z.array(AccountResponseSchema)),
+                    401: errorResponseSchemaFactory(AppErrorObjectSchema),
                     422: errorResponseSchemaFactory(ValidationErrorObjectSchema),
                 },
             },
@@ -70,6 +72,7 @@ const accountsRoutes: FastifyPluginAsyncZod = async (fastify) => {
                 params: AccountParamsSchema,
                 response: {
                     200: successResponseSchemaFactory(AccountResponseSchema),
+                    401: errorResponseSchemaFactory(AppErrorObjectSchema),
                     403: errorResponseSchemaFactory(AppErrorObjectSchema),
                     404: errorResponseSchemaFactory(AppErrorObjectSchema),
                 },
@@ -94,6 +97,7 @@ const accountsRoutes: FastifyPluginAsyncZod = async (fastify) => {
                 body: UpdateAccountSchema,
                 response: {
                     200: successResponseSchemaFactory(AccountResponseSchema),
+                    401: errorResponseSchemaFactory(AppErrorObjectSchema),
                     403: errorResponseSchemaFactory(AppErrorObjectSchema),
                     404: errorResponseSchemaFactory(AppErrorObjectSchema),
                     422: errorResponseSchemaFactory(ValidationErrorObjectSchema),
@@ -120,6 +124,7 @@ const accountsRoutes: FastifyPluginAsyncZod = async (fastify) => {
                 response: {
                     //the deleted id is returned so any client can update local state.
                     200: successResponseSchemaFactory(DeletedAccountResponseSchema),
+                    401: errorResponseSchemaFactory(AppErrorObjectSchema),
                     403: errorResponseSchemaFactory(AppErrorObjectSchema),
                     404: errorResponseSchemaFactory(AppErrorObjectSchema),
                 },
