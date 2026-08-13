@@ -10,6 +10,7 @@ export default defineConfig({
     test: {
         globals: true, // to use describe/it/expect without imports
         environment: 'node',
+        exclude: ['**/node_modules/**', '**/dist/**'],
         typecheck: {
             tsconfig: './tsconfig.test.json',
         },
