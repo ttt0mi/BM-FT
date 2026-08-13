@@ -5,7 +5,6 @@ import type { SuccessResponse, ErrorResponse } from '@/types/index.js';
 import type { AuthResponse, UserResponse } from './auth.schema.js';
 import type { ValidationErrorObject, AppErrorObject } from '@/shared/schemas/response.js';
 
-// Test constants
 const TEST_EMAIL = 'auth.test@example.com';
 const TEST_PASSWORD = 'TestPassword123!';
 const TEST_FIRST_NAME = 'Auth';
@@ -16,9 +15,14 @@ const VALID_REGISTER_PAYLOAD = {
     lastName: TEST_LAST_NAME,
     email: TEST_EMAIL,
     password: TEST_PASSWORD,
+    preferences: {
+        currency: 'NGN',
+        timezone: 'Africa/Lagos',
+        locale: 'en-NG',
+        weekStartsOn: 'SUNDAY',
+    },
 };
 
-// A syntactically valid JWT with a signature that won't verify against our secret.
 const TAMPERED_TOKEN =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9' +
     '.eyJzdWIiOiJmYWtlLWlkIiwiZW1haWwiOiJmYWtlQGV4YW1wbGUuY29tIn0' +
@@ -29,7 +33,6 @@ describe('Auth Routes', () => {
 
     beforeAll(async () => {
         app = await buildApp();
-        // ready() makes sure all plugins are fully registered before tests run.
         await app.ready();
     });
 
@@ -53,7 +56,6 @@ describe('Auth Routes', () => {
             const body = res.json<SuccessResponse<AuthResponse>>();
             expect(body.success).toBe(true);
 
-            // JWT format: three base64url segments separated by dots
             expect(body.data.accessToken.split('.')).toHaveLength(3);
 
             expect(body.data.user.email).toBe(TEST_EMAIL);
@@ -65,14 +67,12 @@ describe('Auth Routes', () => {
         });
 
         it('returns 409 when the email is already registered', async () => {
-            // first registration with test email
             await app.inject({
                 method: 'POST',
                 url: '/api/v1/auth/register',
                 payload: VALID_REGISTER_PAYLOAD,
             });
 
-            // second registration with the same email
             const res = await app.inject({
                 method: 'POST',
                 url: '/api/v1/auth/register',
@@ -97,7 +97,7 @@ describe('Auth Routes', () => {
             expect(res.statusCode).toBe(422);
 
             const { error } = res.json<ErrorResponse<ValidationErrorObject>>();
-            // Field-level errors should tell the client exactly which field failed
+            //field-level errors should tell the client exactly which field failed
             expect(error.details[0]).toBeDefined();
             expect(error.details[0]?.field).toBe('email');
         });
@@ -112,7 +112,6 @@ describe('Auth Routes', () => {
             expect(res.statusCode).toBe(422);
 
             const { error } = res.json<ErrorResponse<ValidationErrorObject>>();
-            // Field-level errors should tell the client exactly which field failed
             expect(error.details[0]).toBeDefined();
             expect(error.details[0]?.field).toBe('password');
         });
@@ -127,7 +126,6 @@ describe('Auth Routes', () => {
             expect(res.statusCode).toBe(422);
 
             const { error } = res.json<ErrorResponse<ValidationErrorObject>>();
-            // Field-level errors should tell the client exactly which field failed
             for (let i = 0; i < 3; i++) {
                 expect(error.details[i]).toBeDefined();
                 expect(['password', 'firstName', 'lastName']).toContain(error.details[i]?.field);
@@ -136,7 +134,6 @@ describe('Auth Routes', () => {
     });
 
     describe('POST /api/v1/auth/login', () => {
-        // Seed a user before each login test.
         beforeEach(async () => {
             await app.inject({
                 method: 'POST',
@@ -197,7 +194,6 @@ describe('Auth Routes', () => {
             expect(res.statusCode).toBe(422);
 
             const { error } = res.json<ErrorResponse<ValidationErrorObject>>();
-            // Field-level errors should tell the client exactly which field failed
             expect(error.details[0]).toBeDefined();
             expect(error.details[0]?.field).toBe('password');
         });
@@ -205,7 +201,6 @@ describe('Auth Routes', () => {
 
     describe('GET /api/v1/auth/me', () => {
         it('returns the authenticated user profile with a valid token', async () => {
-            // Register to get a real token — this tests the full end-to-end flow
             const registerRes = await app.inject({
                 method: 'POST',
                 url: '/api/v1/auth/register',
