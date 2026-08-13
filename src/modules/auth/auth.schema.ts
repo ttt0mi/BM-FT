@@ -1,4 +1,13 @@
 import * as z from 'zod';
+import { Weekday } from '@/generated/prisma/enums.js';
+import { CurrencySchema } from '../accounts/accounts.schema.js';
+
+export const UserPreferencesSchema = z.object({
+    currency: CurrencySchema.default('NGN'),
+    timezone: z.string().default('Africa/Lagos'),
+    locale: z.string().default('en-NG'),
+    weekStartsOn: z.enum(Weekday).default(Weekday.MONDAY),
+});
 
 export const RegisterSchema = z.object({
     firstName: z.string().min(1, 'First name is required').max(50).trim(),
@@ -7,12 +16,16 @@ export const RegisterSchema = z.object({
     password: z
         .string()
         .min(8, 'Password must be at least 8 characters')
-        .max(32, 'Password is too long'),
+        .max(32, 'Password is too long')
+        .regex(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/,
+            'Password must contain at least 1 lowercase, 1 uppercase, 1 number, and 1 special character',
+        ),
+    preferences: UserPreferencesSchema.optional(),
 });
 
 export const LoginSchema = z.object({
     email: z.email('Invalid email address').toLowerCase().trim(),
-    // argon2.verify produces a constant-time 401, not a fast 422 that leaks information due to minimum password length.
     password: z.string().min(1, 'Password is required'),
 });
 
