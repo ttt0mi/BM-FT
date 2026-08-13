@@ -43,7 +43,7 @@ export const AccountResponseSchema = z.object({
     name: z.string(),
     type: AccountTypeSchema,
     balance: z.string(), //decimal string from fromMinorUnits() — BigInt never exposed
-    currency: z.string(),
+    currency: CurrencySchema,
     notes: z.string().nullable(), //notes can be undefined (no change), null (clear), or a string (update).
     createdAt: z.date(),
     updatedAt: z.date(),
