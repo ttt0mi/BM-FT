@@ -1,16 +1,9 @@
 import argon2 from 'argon2';
-import type { PrismaClient } from '@/generated/prisma/client.js';
+import type { PrismaClient, User } from '@/generated/prisma/client.js';
 import { ConflictError, NotFoundError, UnauthorizedError } from '@/shared/errors/AppError.js';
 import type { RegisterInput, LoginInput, UserResponse } from './auth.schema.js';
 
-// Every function in this file must return UserResponse, never the raw Prisma model.
-function toUserResponse(user: {
-    id: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    createdAt: Date;
-}): UserResponse {
+function toUserResponse(user: User): UserResponse {
     return {
         id: user.id,
         fullName: user.firstName.concat(' ', user.lastName),
@@ -33,7 +26,7 @@ export async function registerUser(
         where: { email: input.email },
     });
 
-    if (existing) {
+    if (existing && !existing.deletedAt) {
         throw new ConflictError('An account with this email already exists', {
             details: { field: 'email' },
         });
@@ -41,13 +34,18 @@ export async function registerUser(
 
     const passwordHash = await argon2.hash(input.password);
 
-    const user = await prisma.user.create({
-        data: {
-            firstName: input.firstName,
-            lastName: input.lastName,
-            email: input.email,
-            hashedPassword: passwordHash,
-        },
+    const user = await prisma.$transaction(async (tx) => {
+        return await tx.user.create({
+            data: {
+                firstName: input.firstName,
+                lastName: input.lastName,
+                email: input.email,
+                hashedPassword: passwordHash,
+                preferences: {
+                    create: input.preferences ?? {},
+                },
+            },
+        });
     });
 
     return toUserResponse(user);
