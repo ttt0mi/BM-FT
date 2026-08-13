@@ -67,8 +67,6 @@ const authRoutes: FastifyPluginAsyncZod = async (fastify) => {
             onRequest: [fastify.authenticate],
         },
         async (request, reply) => {
-            // request.user.sub is the user ID we signed into the token at login.
-            // TypeScript knows this because of the JwtPayload augmentation in types/index.ts.
             const user = await authService.getUserById(fastify.prisma, request.user.sub);
 
             return reply.send({ success: true, data: user });
