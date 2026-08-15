@@ -2,6 +2,12 @@ import { type FastifyInstance, type FastifyError } from 'fastify';
 import fp from 'fastify-plugin';
 import { AppError, ErrorCodes } from '@/shared/errors/AppError.js';
 
+/**
+ * This plugin registers a global error handler for Fastify.
+ * The API's AppError and Fastify's built-in validation errors (from Zod)
+ * are handled here.
+ * All other errors are logged and return a generic 500 response
+ */
 export default fp(async (fastify: FastifyInstance) => {
     fastify.setNotFoundHandler((request, reply) => {
         reply.status(404).send({
