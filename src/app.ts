@@ -4,6 +4,7 @@ import helmetPlugin from '@/plugins/helmet.js';
 import corsPlugin from '@/plugins/cors.js';
 import authPlugin from '@/plugins/auth.js';
 import databasePlugin from '@/plugins/database.js';
+import redisPlugin from '@/plugins/redis.js';
 import errorHandlerPlugin from '@/plugins/error-handler.js';
 import { envToLogger } from '@/plugins/logger.js';
 import { config } from '@/config/env.js';
@@ -26,6 +27,8 @@ export async function buildApp(): Promise<FastifyInstance> {
     await app.register(helmetPlugin);
 
     await app.register(corsPlugin);
+
+    await app.register(redisPlugin);
 
     await app.register(databasePlugin);
 

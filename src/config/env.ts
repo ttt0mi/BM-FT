@@ -10,6 +10,8 @@ export const environmentSchema = z.object({
     ACCESS_JWT_EXPIRES_IN: z.string(),
     LOG_LEVEL: z.enum(['trace', 'debug', 'info', 'warn', 'error']).default('debug'),
     FRONTEND_URL: z.string(),
+    REDIS_URL: z.string(),
+    REDIS_PASSWORD: z.string().optional(),
 });
 
 export const config = environmentSchema.parse(process.env);
