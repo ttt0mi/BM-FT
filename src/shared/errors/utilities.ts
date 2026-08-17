@@ -1,0 +1,13 @@
+export const ErrorCodes = {
+    NOT_FOUND: 'NOT FOUND',
+    INTERNAL_SERVER_ERROR: 'INTERNAL SERVER ERROR',
+    UNAUTHORIZED: 'UNAUTHORIZED',
+    FORBIDDEN: 'FORBIDDEN',
+    CONFLICT: 'CONFLICT',
+    IDEMPOTENCY_CONFLICT: 'IDEMPOTENCY CONFLICT',
+    VALIDATION_ERROR: 'VALIDATION ERROR',
+} as const;
+
+export interface ErrorOptions {
+    details?: unknown;
+}

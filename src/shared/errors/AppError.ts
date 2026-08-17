@@ -1,13 +1,4 @@
-import { type ErrorOptions } from '@/types/index.js';
-
-export const ErrorCodes = {
-    NOT_FOUND: 'NOT_FOUND',
-    INTERNAL_SERVER_ERROR: 'INTERNAL_SERVER_ERROR',
-    UNAUTHORIZED: 'UNAUTHORIZED',
-    FORBIDDEN: 'FORBIDDEN',
-    CONFLICT: 'CONFLICT',
-    VALIDATION_ERROR: 'VALIDATION_ERROR',
-} as const;
+import { ErrorCodes, type ErrorOptions } from './utilities.js';
 
 /**
  * Base application error. All other errors extend this.
@@ -73,6 +64,18 @@ export class ConflictError extends AppError {
     constructor(message: string = 'Conflict', options?: ErrorOptions) {
         super(message, 409, ErrorCodes.CONFLICT, options);
         this.name = 'ConflictError';
+    }
+}
+
+/**
+ * 409 -> Idempotency conflict. A supposedly idempotent operation was replayed with different data.
+ * Use this when an idempotency key has already been used for a request that does not match the previous payload.
+ * @example throw new IdempotencyConflictError('Idempotency conflict')
+ */
+export class IdempotencyConflictError extends AppError {
+    constructor(message: string = 'Conflict', options?: ErrorOptions) {
+        super(message, 409, ErrorCodes.IDEMPOTENCY_CONFLICT, options);
+        this.name = 'IdempotencyConflictError';
     }
 }
 
