@@ -36,23 +36,3 @@ export type ErrorResponse<T> = {
  *   { success: false, error: {...} }  on failure
  */
 export type ApiResponse<T> = SuccessResponse<T> | ErrorResponse<T>;
-
-/**
- * Cursor-based pagination params.
- * Offset pagination ("page 2 of 10") breaks when data changes between requests.
- * Cursor pagination ("give me items after this ID") is stable and scales better.
- */
-export interface PaginationParams {
-    cursor?: string; // the ID of the last item on the previous page
-    limit?: number; // how many items to return (default: 20, max: 100)
-}
-
-export interface PaginatedResponse<T> {
-    items: T[];
-    nextCursor: string | null; // null means "no more pages"
-    hasMore: boolean;
-}
-
-export interface ErrorOptions {
-    details?: unknown;
-}
