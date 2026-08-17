@@ -3,7 +3,7 @@ import type { FastifyInstance } from 'fastify';
 import { buildApp } from '@/app.js';
 import type { SuccessResponse, ErrorResponse } from '@/types/index.js';
 import type { AuthResponse, UserResponse } from './auth.schema.js';
-import type { ValidationErrorObject, AppErrorObject } from '@/shared/schemas/response.js';
+import type { AppErrorObject, ValidationErrorObject } from '@/shared/errors/schema.js';
 
 const TEST_EMAIL = 'auth.test@example.com';
 const TEST_PASSWORD = 'TestPassword123!';

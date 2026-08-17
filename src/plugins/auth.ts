@@ -2,7 +2,7 @@ import { type FastifyInstance, type FastifyRequest, type FastifyReply } from 'fa
 import fp from 'fastify-plugin';
 import fastifyJwt from '@fastify/jwt';
 import { config } from '@/config/env.js';
-import { ErrorCodes } from '@/shared/errors/AppError.js';
+import { ErrorCodes } from '@/shared/errors/utilities.js';
 
 /**
  * This plugin registers @fastify/jwt so that all other plugins/routes

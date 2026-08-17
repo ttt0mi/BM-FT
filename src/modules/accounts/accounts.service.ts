@@ -1,5 +1,5 @@
 import { Prisma, type Account, type PrismaClient } from '@/generated/prisma/client.js';
-import { fromMinorUnit } from '@/lib/utilities.js';
+import { fromMinorUnit } from '@/lib/money/utilities.js';
 import { ForbiddenError, NotFoundError } from '@/shared/errors/AppError.js';
 import type {
     AccountResponse,

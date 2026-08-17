@@ -4,9 +4,8 @@ import * as authService from './auth.service.js';
 import {
     successResponseSchemaFactory,
     errorResponseSchemaFactory,
-    AppErrorObjectSchema,
-    ValidationErrorObjectSchema,
 } from '@/shared/schemas/response.js';
+import { AppErrorObjectSchema, ValidationErrorObjectSchema } from '@/shared/errors/schema.js';
 import { AuthResponseSchema } from './auth.schema.js';
 
 const authRoutes: FastifyPluginAsyncZod = async (fastify) => {

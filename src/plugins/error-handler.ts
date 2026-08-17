@@ -1,6 +1,7 @@
 import { type FastifyInstance, type FastifyError } from 'fastify';
 import fp from 'fastify-plugin';
-import { AppError, ErrorCodes } from '@/shared/errors/AppError.js';
+import { AppError } from '@/shared/errors/AppError.js';
+import { ErrorCodes } from '@/shared/errors/utilities.js';
 
 /**
  * This plugin registers a global error handler for Fastify.

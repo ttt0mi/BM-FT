@@ -5,7 +5,7 @@ import { buildApp } from '@/app.js';
 import type { SuccessResponse, ErrorResponse } from '@/types/index.js';
 import type { AccountResponse, DeletedAccountResponse } from './accounts.schema.js';
 import type { AuthResponse } from '../auth/auth.schema.js';
-import type { ValidationErrorObject } from '@/shared/schemas/response.js';
+import type { ValidationErrorObject } from '@/shared/errors/schema.js';
 
 const USER_A_EMAIL = 'accounts.user_a@example.com';
 const USER_B_EMAIL = 'accounts.user_b@example.com';

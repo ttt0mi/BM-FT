@@ -1,10 +1,9 @@
 import type { FastifyPluginAsyncZod } from '@fastify/type-provider-zod';
 import {
-    AppErrorObjectSchema,
-    ValidationErrorObjectSchema,
     errorResponseSchemaFactory,
     successResponseSchemaFactory,
 } from '@/shared/schemas/response.js';
+import { AppErrorObjectSchema, ValidationErrorObjectSchema } from '@/shared/errors/schema.js';
 import {
     AccountParamsSchema,
     AccountResponseSchema,
