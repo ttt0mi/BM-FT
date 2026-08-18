@@ -1,10 +1,9 @@
 import { Pool } from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '../generated/prisma/client.js';
-import { config } from '@/config/env.js';
 
 const pool = new Pool({
-    connectionString: config.DATABASE_URL,
+    connectionString: process.env.DATABASE_URL,
     ssl: {
         rejectUnauthorized: false,
     },
@@ -24,9 +23,9 @@ export const prisma =
     globalForPrisma.prisma ??
     new PrismaClient({
         adapter,
-        log: config.NODE_ENV === 'development' ? ['query', 'warn', 'error'] : ['error'],
+        log: process.env.NODE_ENV === 'development' ? ['query', 'warn', 'error'] : ['error'],
     });
 
-if (config.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== 'production') {
     globalForPrisma.prisma = prisma;
 }
