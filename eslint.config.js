@@ -24,7 +24,9 @@ export default defineConfig([
 
         languageOptions: {
             parserOptions: {
-                projectService: true,
+                projectService: {
+                    allowDefaultProject: ['prisma/seed.ts'],
+                },
                 tsconfigRootDir: import.meta.dirname,
             },
         },
