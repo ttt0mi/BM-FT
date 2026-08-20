@@ -4,9 +4,12 @@ import { PrismaClient } from '../generated/prisma/client.js';
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: {
-        rejectUnauthorized: false,
-    },
+    ssl:
+        process.env.NODE_ENV !== 'test'
+            ? {
+                  rejectUnauthorized: false,
+              }
+            : undefined,
 });
 const adapter = new PrismaPg(pool);
 
