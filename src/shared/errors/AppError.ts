@@ -89,3 +89,10 @@ export class ValidationError extends AppError {
         this.name = 'ValidationError';
     }
 }
+
+export class ServiceUnavailableError extends AppError {
+    constructor(message: string, options?: ErrorOptions) {
+        super(message, 503, ErrorCodes.SERVICE_UNAVAILABLE, options);
+        this.name = 'ServiceUnavailableError';
+    }
+}
