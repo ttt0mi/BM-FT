@@ -1,6 +1,6 @@
 import * as z from 'zod';
 import { Weekday } from '@/generated/prisma/enums.js';
-import { CurrencySchema } from '../accounts/accounts.schema.js';
+import { CurrencySchema } from '@/shared/schemas/currency.js';
 
 export const UserPreferencesSchema = z.object({
     currency: CurrencySchema.default('NGN'),
